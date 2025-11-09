@@ -31,9 +31,9 @@ module note_recognizer
     always_ff @ (posedge clk)
         if (rst)
         begin
-            prev_mic <= '0;
-            counter  <= '0;
-            distance <= '0;
+            prev_mic_sign <= 1'b0;
+            counter       <= '0;
+            distance      <= '0;
         end
         else
         begin
