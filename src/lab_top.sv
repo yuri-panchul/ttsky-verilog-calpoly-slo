@@ -96,7 +96,7 @@ module lab_top
         if (cnt2 == '0 | cnt2 == w_y' (screen_height - 1))
             cnt2_d = w_y' (screen_height / 2);
         else
-            cnt2_d = cnt2 + key [0] - (| key [w_key - 1:1]);
+            cnt2_d = cnt2 + w_y' (key [0]) - w_y' (| key [w_key - 1:1]);
     end
 
     //------------------------------------------------------------------------
@@ -137,7 +137,7 @@ module lab_top
 
     always_ff @ (posedge clk)
         if (rst)
-            sticky_note <= '0;
+            sticky_note <= '1;
         else if (note_vld)
             sticky_note <= note_idx;
 
@@ -154,17 +154,17 @@ module lab_top
 
             if (x < cnt1)
             begin
-                red   = (x + y) >> 3;
-                green = (x - y) >> 3;
-                blue  = x >> 3;
+                red   = w_red'   ((x + y) >> 3);
+                green = w_green' ((x - y) >> 3);
+                blue  = w_blue'  ( x      >> 3);
             end
 
         4'd1, 4'd4, 4'd7, 4'd10:
 
             if ((x - cnt1) * (y - cnt2) < (screen_width * screen_height) / 16)
             begin
-                red   = x >> 3;
-                green = y >> 3;
+                red   = w_red'   (x >> 3);
+                green = w_green' (y >> 3);
                 blue  = '1;
             end
 
@@ -174,7 +174,19 @@ module lab_top
             begin
                 red   = '1;
                 green = '1;
-                blue  = (x + y) >> 3;
+                blue  = w_blue' ((x + y) >> 3);
+            end
+
+        default:
+
+            begin
+                if (x < cnt1)
+                    red = '1;
+                else
+                    blue = '1;
+
+                if (y < cnt2)
+                    green = '1;
             end
 
         endcase

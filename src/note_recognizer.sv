@@ -24,7 +24,7 @@ module note_recognizer
 
     // It is enough for the counter to be 20 bit. Why?
 
-    logic [23:0] prev_mic;
+    logic        prev_mic_sign;
     logic [19:0] counter;
     logic [19:0] distance;
 
@@ -37,12 +37,12 @@ module note_recognizer
         end
         else
         begin
-            prev_mic <= mic;
+            prev_mic_sign <= mic [$left (mic)];
 
             // Crossing from negative to positive numbers
 
-            if (  prev_mic [$left ( prev_mic )] == 1'b1
-                & mic      [$left ( mic      )] == 1'b0 )
+            if (  prev_mic_sign     == 1'b1
+                & mic [$left (mic)] == 1'b0 )
             begin
                distance <= counter;
                counter  <= '0;
@@ -74,19 +74,19 @@ module note_recognizer
 
     //------------------------------------------------------------------------
 
-    function [19:0] high_distance (input [18:0] freq_100);
-       high_distance = clk_mhz * 1000 * 1000 / freq_100 * 103;
+    function [19:0] high_distance (input [19:0] freq_100);
+       high_distance = 20' (clk_mhz * 1000 * 1000 / freq_100 * 103);
     endfunction
 
     //------------------------------------------------------------------------
 
-    function [19:0] low_distance (input [18:0] freq_100);
-       low_distance = clk_mhz * 1000 * 1000 / freq_100 * 97;
+    function [19:0] low_distance (input [19:0] freq_100);
+       low_distance = 20' (clk_mhz * 1000 * 1000 / freq_100 * 97);
     endfunction
 
     //------------------------------------------------------------------------
 
-    function check_freq_single_range (input [18:0] freq_100, input [19:0] distance);
+    function check_freq_single_range (input [19:0] freq_100, input [19:0] distance);
 
        check_freq_single_range =    distance > low_distance  (freq_100)
                                   & distance < high_distance (freq_100);
@@ -94,7 +94,7 @@ module note_recognizer
 
     //------------------------------------------------------------------------
 
-    function check_freq (input [18:0] freq_100, input [19:0] distance);
+    function check_freq (input [19:0] freq_100, input [19:0] distance);
 
        check_freq =   check_freq_single_range (freq_100 * 4 , distance)
                     | check_freq_single_range (freq_100 * 2 , distance)
