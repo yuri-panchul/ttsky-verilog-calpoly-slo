@@ -70,6 +70,14 @@ module lab_top
 
     //------------------------------------------------------------------------
 
+    wire any_sw = | sw;
+
+    localparam w_in = w_key > w_sw ? w_key : w_sw;
+
+    wire [w_in - 1:0] in = any_sw ? w_in' (sw) : w_in' (key);
+
+    //------------------------------------------------------------------------
+
     logic [19:0] cnt_e;
 
     always_ff @ (posedge clk)
@@ -96,7 +104,7 @@ module lab_top
         if (cnt2 == '0 | cnt2 == w_y' (screen_height - 1))
             cnt2_d = w_y' (screen_height / 2);
         else
-            cnt2_d = cnt2 + w_y' (key [0]) - w_y' (| key [w_key - 1:1]);
+            cnt2_d = cnt2 + w_y' (in [0]) - w_y' (| in [w_in - 1:1]);
     end
 
     //------------------------------------------------------------------------
