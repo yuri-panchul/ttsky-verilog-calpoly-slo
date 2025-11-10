@@ -150,7 +150,7 @@ module lab_top
             sticky_note <= note_idx;
 
     //------------------------------------------------------------------------
-    
+
     localparam w_xy = (w_x > w_y ? w_x : w_y) * 2;
 
     always_comb
@@ -171,8 +171,8 @@ module lab_top
 
         4'd1, 4'd4, 4'd7, 4'd10:
 
-            // if ((x - cnt1) * (y - cnt2) < w_xy' ((screen_width * screen_height) / 16))
-            if (y > cnt2)
+            if ((x - cnt1) * (y - cnt2) < w_xy' ((screen_width * screen_height) / 16))
+            // if (y > cnt2)
             begin
                 red   = w_red'   (x >> 3);
                 green = w_green' (y >> 3);
