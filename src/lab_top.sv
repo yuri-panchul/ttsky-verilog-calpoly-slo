@@ -171,7 +171,8 @@ module lab_top
 
         4'd1, 4'd4, 4'd7, 4'd10:
 
-            if ((x - cnt1) * (y - cnt2) < w_xy' ((screen_width * screen_height) / 16))
+            // if ((x - cnt1) * (y - cnt2) < w_xy' ((screen_width * screen_height) / 16))
+            if (y > cnt2)
             begin
                 red   = w_red'   (x >> 3);
                 green = w_green' (y >> 3);
@@ -180,7 +181,8 @@ module lab_top
 
         4'd2, 4'd5, 4'd8, 4'd11:
 
-            if ((x - cnt1) ** 2 + (y - cnt2) ** 2 < w_xy' ((screen_width * screen_height) / 12))
+            // if ((x - cnt1) ** 2 + (y - cnt2) ** 2 < w_xy' ((screen_width * screen_height) / 12))
+            if (x + y < cnt1 + cnt2)
             begin
                 red   = '1;
                 green = '1;
