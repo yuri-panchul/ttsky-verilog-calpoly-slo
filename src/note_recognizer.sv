@@ -74,33 +74,41 @@ module note_recognizer
 
     //------------------------------------------------------------------------
 
-    function [19:0] high_distance (input [19:0] freq_100);
+    function [19:0] high_distance (input [31:0] freq_100);
        high_distance = 20' (clk_mhz * 1000 * 1000 / freq_100 * 103);
     endfunction
 
     //------------------------------------------------------------------------
 
-    function [19:0] low_distance (input [19:0] freq_100);
+    function [19:0] low_distance (input [31:0] freq_100);
        low_distance = 20' (clk_mhz * 1000 * 1000 / freq_100 * 97);
     endfunction
 
     //------------------------------------------------------------------------
 
-    function check_freq_single_range (input [19:0] freq_100, input [19:0] distance);
+    /* verilator lint_off VARHIDDEN */
+
+    function check_freq_single_range (input [31:0] freq_100, input [19:0] distance);
 
        check_freq_single_range =    distance > low_distance  (freq_100)
                                   & distance < high_distance (freq_100);
     endfunction
 
+    /* verilator lint_on VARHIDDEN */
+
     //------------------------------------------------------------------------
 
-    function check_freq (input [19:0] freq_100, input [19:0] distance);
+    /* verilator lint_off VARHIDDEN */
+
+    function check_freq (input [31:0] freq_100, input [19:0] distance);
 
        check_freq =   check_freq_single_range (freq_100 * 4 , distance)
                     | check_freq_single_range (freq_100 * 2 , distance)
                     | check_freq_single_range (freq_100     , distance);
 
     endfunction
+
+    /* verilator lint_on VARHIDDEN */
 
     //------------------------------------------------------------------------
 
