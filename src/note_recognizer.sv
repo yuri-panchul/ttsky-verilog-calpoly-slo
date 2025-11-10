@@ -213,6 +213,7 @@ module note_recognizer
         A  : note_idx <= 4'h9;
         As : note_idx <= 4'ha;
         B  : note_idx <= 4'hb;
+        default: ;
         endcase
 
     always_ff @ (posedge clk)
