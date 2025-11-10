@@ -19,8 +19,7 @@ lint_off -rule UNUSEDSIGNAL -file "*/layer_between_project_and_lab_top.sv" -matc
 lint_off -rule UNUSEDSIGNAL -file "*/layer_between_project_and_lab_top.sv" -match "*'vpos'[9]"
 lint_off -rule UNUSEDSIGNAL -file "*/tm1638_board.sv"                      -match "*'tm_out'[7:5,3:1]"
 
-lint_off -rule UNUSEDSIGNAL -file "*/note_recognizer.sv"                   -match "*'mic'"
-lint_off -rule VARHIDDEN    -file "*/note_recognizer.sv"                   -match "*'distance'"
+lint_off -rule UNUSEDSIGNAL -file "*/note_recognizer.sv"                   -match "*'mic'[22:0]"
 
 lint_off -rule UNUSEDPARAM  -file "*/note_recognizer.sv"                   -match "*'Af'"
 lint_off -rule UNUSEDPARAM  -file "*/note_recognizer.sv"                   -match "*'Bf'"
